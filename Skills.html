@@ -3,10 +3,158 @@
 <head>
   <title>Skills - Parker Gage</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    /* CSS for the fade-in and fade-out animation */
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
+    }
+
+    .show {
+      opacity: 1;
+    }
+
+    /* CSS for the dark mode toggle button */
+    .dark-mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: #333;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .dark-mode-toggle img {
+      width: 80%;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .dark-mode-toggle.active {
+      background-color: #fdd835;
+    }
+
+    .dark-mode-toggle.active img {
+      transform: rotate(45deg);
+    }
+   /* Dark mode styles */
+    body.dark-mode {
+      background-color: #222;
+      color: #fff;
+    }
+
+    body.dark-mode header {
+      background-color: #333;
+    }
+
+    body.dark-mode header h1 {
+      color: #fff;
+    }
+
+    body.dark-mode nav ul li a {
+      color: #000; /* Change the color to black */
+    }
+
+    body.dark-mode .content {
+      background-color: #333;
+    }
+
+    body.dark-mode .content p {
+      color: #fff;
+    }
+
+    body.dark-mode footer {
+      background-color: #333;
+      color: #fff;
+    }
+
+    body.dark-mode footer .personal-info p {
+      color: #fff;
+    }
+
+    body.dark-mode footer .social-media img {
+      filter: none;
+    }
+
+    /* Hide content during page load */
+    body:not(.fade-out) {
+      overflow: hidden;
+    }
+
+    /* Fade in content after page load */
+    body.fade-in .content,
+    body.fade-in header h1 {
+      opacity: 1;
+    }
+
+    /* Fade out content during page transition */
+    body.fade-out .content,
+    body.fade-out header h1 {
+      opacity: 0;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+  // Function to toggle between light and dark mode
+  function toggleDarkMode() {
+    $('body').toggleClass('dark-mode');
+    $('.dark-mode-toggle').toggleClass('active');
+
+    // Store the mode preference in local storage
+    var isDarkMode = $('body').hasClass('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode);
+  }
+
+  // Add click event listener to navigation links
+  $('nav a').on('click', function(e) {
+    e.preventDefault();
+    var target = $(this).attr('href');
+
+    // Fade out current content and header text
+    $('.content, header h1').removeClass('show');
+
+    // Delay the navigation to allow the fade-out effect
+    setTimeout(function() {
+      window.location.href = target;
+    }, 300); // Adjust the delay (in milliseconds) to match the transition duration
+
+    return false;
+  });
+
+  // Add the show class to the content and header sections on page load
+  $('.content, header h1').addClass('fade-in');
+
+  // Trigger the animation by adding the show class after a slight delay
+  setTimeout(function() {
+    $('.content, header h1').addClass('show');
+  }, 100);
+
+  // Check local storage for the user's preferred mode
+  var storedDarkMode = localStorage.getItem('darkMode');
+  if (storedDarkMode === 'true') {
+    $('body').addClass('dark-mode');
+    $('.dark-mode-toggle').addClass('active');
+    $('.content').addClass('show'); // Added to fix the fade-in issue
+  }
+
+  // Add click event listener to dark mode toggle button
+  $('.dark-mode-toggle').on('click', toggleDarkMode);
+});
+  </script>
 </head>
 <body>
   <header>
-    <h1>Skills</h1>
+    <h1 class="fade-in">Skills</h1>
+    <div class="dark-mode-toggle">
+      <img src="moon-icon.png" alt="Dark Mode Toggle">
+    </div>
   </header>
   
   <nav>
@@ -33,7 +181,7 @@
       <p>Parker Gage | 422 Highedge Dr, Rockwall, TX 75087 | 469-338-3185 | parkergage2003@gmail.com</p>
     </div>
     <div class="social-media">
-       <a href="https://www.linkedin.com/in/parker-gage-0a50861b1/" target="_blank"><img src="linkedin-icon.png" alt="LinkedIn"></a>
+      <a href="https://www.linkedin.com/in/parker-gage-0a50861b1/" target="_blank"><img src="linkedin-icon.png" alt="LinkedIn"></a>
       <a href="https://www.instagram.com/p.gage25/" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
       <a href="resume.doc" target="_blank"><img src="word-icon.png" alt="Resume"></a>
     </div>

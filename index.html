@@ -2,6 +2,18 @@
 <html>
 <head>
   <title>Welcome - Parker Gage</title>
+  <script>
+    var enteredPassword = sessionStorage.getItem('enteredPassword');
+
+    if (!enteredPassword) {
+      window.location.href = 'password.html'; // Redirect to the password protection page
+    }
+  </script>
+    
+  <script>
+    // Store a flag indicating that the correct password has been entered
+    sessionStorage.setItem('enteredPassword', 'true');
+  </script>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <style>
     /* CSS for the fade-in and fade-out animation */
@@ -186,3 +198,4 @@
   </footer>
 </body>
 </html>
+

@@ -47,11 +47,6 @@
     body.dark-mode {
       background-color: #222;
       color: #fff;
-      opacity: 0; /* Set initial opacity to 0 */
-    }
-
-    body.dark-mode.fade-in {
-      opacity: 1; /* Set opacity to 1 during the fade-in animation */
     }
 
     body.dark-mode header {
@@ -85,6 +80,23 @@
 
     body.dark-mode footer .social-media img {
       filter: none;
+    }
+
+    /* Hide content during page load */
+    body:not(.fade-out) {
+      overflow: hidden;
+    }
+
+    /* Fade in content after page load */
+    body.fade-in .content,
+    body.fade-in header h1 {
+      opacity: 1;
+    }
+
+    /* Fade out content during page transition */
+    body.fade-out .content,
+    body.fade-out header h1 {
+      opacity: 0;
     }
 
     /* Custom styles for the content section */
@@ -152,25 +164,14 @@
         $('body').addClass('dark-mode');
         $('.dark-mode-toggle').addClass('active');
         $('.content').addClass('show'); // Added to fix the fade-in issue
-
-        // Add the fade-in class to body after a slight delay to prevent white flash
-        setTimeout(function() {
-          $('body').addClass('fade-in');
-        }, 100);
-      } else {
-        // Add the fade-in class to body immediately
-        $('body').addClass('fade-in');
       }
-
-      // Add click event listener to dark mode toggle button
-      $('.dark-mode-toggle').on('click', toggleDarkMode);
 
       // Remove the fade-out class after the transition to show the content
       $('body').removeClass('fade-out');
     });
   </script>
 </head>
-<body class="fade-out">
+<body>
   <header>
     <h1 class="fade-in">Welcome to Parker Gage's Resume</h1>
     <div class="dark-mode-toggle">

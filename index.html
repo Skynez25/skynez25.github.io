@@ -2,6 +2,19 @@
 <html>
 <head>
   <title>Welcome - Parker Gage</title>
+  <script>
+    var enteredPassword = sessionStorage.getItem('enteredPassword');
+
+    if (!enteredPassword) {
+      window.location.href = 'password.html'; // Redirect to the password protection page
+    }
+  </script>
+    
+  <script>
+    // Store a flag indicating that the correct password has been entered
+    sessionStorage.setItem('enteredPassword', 'true');
+  </script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
   <style>
     /* CSS for the fade-in and fade-out animation */
     .fade-in {
@@ -42,8 +55,7 @@
     .dark-mode-toggle.active img {
       transform: rotate(45deg);
     }
-
-    /* Dark mode styles */
+   /* Dark mode styles */
     body.dark-mode {
       background-color: #222;
       color: #fff;
@@ -164,16 +176,19 @@
         $('body').addClass('dark-mode');
         $('.dark-mode-toggle').addClass('active');
         $('.content').addClass('show'); // Added to fix the fade-in issue
+      } else {
+        // Add the fade-in class to the body to show the content after the transition
+        $('body').addClass('fade-in');
       }
 
-      // Remove the fade-out class after the transition to show the content
-      $('body').removeClass('fade-out');
+      // Add click event listener to dark mode toggle button
+      $('.dark-mode-toggle').on('click', toggleDarkMode);
     });
   </script>
 </head>
 <body>
   <header>
-    <h1 class="fade-in">Welcome to Parker Gage's Resume</h1>
+    <h1>Welcome to Parker Gage's Resume</h1>
     <div class="dark-mode-toggle">
       <img src="moon-icon.png" alt="Dark Mode Toggle">
     </div>

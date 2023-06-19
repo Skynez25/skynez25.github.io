@@ -44,15 +44,10 @@
     }
 
     /* Dark mode styles */
-    body {
+    body.dark-mode {
       background-color: #222;
-      transition: background-color 0.3s ease;
       color: #fff;
       overflow: hidden; /* Hide content during transition */
-    }
-
-    body.dark-mode {
-      background-color: #333;
     }
 
     body.dark-mode header {
@@ -117,57 +112,24 @@
     $(document).ready(function() {
       // Function to toggle between light and dark mode
       function toggleDarkMode() {
-        $('body').toggleClass('dark-mode');
-        $('.dark-mode-toggle').toggleClass('active');
+        $('body').toggleClass('fade-out'); // Add fade-out class to initiate transition
 
-        // Store the mode preference in local storage
-        var isDarkMode = $('body').hasClass('dark-mode');
-        localStorage.setItem('darkMode', isDarkMode);
-
-        // Show content after transition
         setTimeout(function() {
-          $('body').css('overflow', 'visible');
-        }, 300);
-      }
+          $('body').toggleClass('dark-mode fade-in'); // Add fade-in class after the transition delay
+          $('.dark-mode-toggle').toggleClass('active');
 
-      // Add click event listener to navigation links
-      $('nav a').on('click', function(e) {
-        e.preventDefault();
-        var target = $(this).attr('href');
+          // Store the mode preference in local storage
+          var isDarkMode = $('body').hasClass('dark-mode');
+          localStorage.setItem('darkMode', isDarkMode);
 
-        // Fade out current content and header text
-        $('body').addClass('fade-out');
-
-        // Delay the navigation to allow the fade-out effect
-        setTimeout(function() {
-          window.location.href = target;
+          // Show content after transition
+          setTimeout(function() {
+            $('body').css('overflow', 'visible');
+          }, 300);
         }, 300); // Adjust the delay (in milliseconds) to match the transition duration
-
-        return false;
-      });
-
-      // Add the show class to the content and header sections on page load
-      $('.content, header h1').addClass('fade-in');
-
-      // Trigger the animation by adding the show class after a slight delay
-      setTimeout(function() {
-        $('.content, header h1').addClass('show');
-      }, 100);
-
-      // Check local storage for the user's preferred mode
-      var storedDarkMode = localStorage.getItem('darkMode');
-      if (storedDarkMode === 'true') {
-        $('body').addClass('dark-mode');
-        $('.dark-mode-toggle').addClass('active');
-
-        // Show content after transition
-        setTimeout(function() {
-          $('body').css('overflow', 'visible');
-        }, 300);
       }
 
-      // Add click event listener to dark mode toggle button
-      $('.dark-mode-toggle').on('click', toggleDarkMode);
+      // Rest of the code...
 
       // Remove the fade-out class after the transition to show the content
       $('body').removeClass('fade-out');
@@ -175,36 +137,6 @@
   </script>
 </head>
 <body class="fade-out">
-  <header>
-    <h1 class="fade-in">Welcome to Parker Gage's Resume</h1>
-    <div class="dark-mode-toggle">
-      <img src="moon-icon.png" alt="Dark Mode Toggle">
-    </div>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="Education.html">Education</a></li>
-      <li><a href="Experience.html">Experience</a></li>
-      <li><a href="Skills.html">Skills</a></li>
-      <li><a href="References.html">References</a></li>
-    </ul>
-  </nav>
-
-  <section class="content">
-    <p>Objective: To obtain a 2024 Summer internship in the field of Mechanical Engineering.</p>
-  </section>
-
-  <footer>
-    <div class="personal-info">
-      <p>Parker Gage | 422 Highedge Dr, Rockwall, TX 75087 | 469-338-3185 | parkergage2003@gmail.com</p>
-    </div>
-    <div class="social-media">
-      <a href="https://www.linkedin.com/in/parker-gage-0a50861b1/" target="_blank"><img src="linkedin-icon.png" alt="LinkedIn"></a>
-      <a href="https://www.instagram.com/p.gage25/" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
-      <a href="resume.doc" target="_blank"><img src="word-icon.png" alt="Resume"></a>
-    </div>
-  </footer>
+  <!-- Your HTML content -->
 </body>
 </html>

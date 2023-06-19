@@ -2,6 +2,19 @@
 <html>
 <head>
   <title>Welcome - Parker Gage</title>
+  <script>
+    var enteredPassword = sessionStorage.getItem('enteredPassword');
+
+    if (!enteredPassword) {
+      window.location.href = 'password.html'; // Redirect to the password protection page
+    }
+  </script>
+    
+  <script>
+    // Store a flag indicating that the correct password has been entered
+    sessionStorage.setItem('enteredPassword', 'true');
+  </script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
   <style>
     /* CSS for the fade-in and fade-out animation */
     .fade-in {
@@ -42,12 +55,10 @@
     .dark-mode-toggle.active img {
       transform: rotate(45deg);
     }
-
-    /* Dark mode styles */
+   /* Dark mode styles */
     body.dark-mode {
       background-color: #222;
       color: #fff;
-      overflow: hidden; /* Hide content during transition */
     }
 
     body.dark-mode header {
@@ -64,13 +75,6 @@
 
     body.dark-mode .content {
       background-color: #333;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transform-origin: center;
-      transition: transform 0.3s ease;
-      opacity: 0;
-      position: relative;
-      z-index: 1;
     }
 
     body.dark-mode .content p {
@@ -106,37 +110,113 @@
     body.fade-out header h1 {
       opacity: 0;
     }
+
+    /* Custom styles for the content section */
+    .content {
+      position: relative;
+      margin: 50px auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 600px;
+      background-color: #333;
+      color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .content:hover {
+      transform: scale(1.1);
+    }
+
+    .content p {
+      margin: 0;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {
       // Function to toggle between light and dark mode
       function toggleDarkMode() {
-        $('body').toggleClass('fade-out'); // Add fade-out class to initiate transition
+        $('body').toggleClass('dark-mode');
+        $('.dark-mode-toggle').toggleClass('active');
 
-        setTimeout(function() {
-          $('body').toggleClass('dark-mode fade-in'); // Add fade-in class after the transition delay
-          $('.dark-mode-toggle').toggleClass('active');
-
-          // Store the mode preference in local storage
-          var isDarkMode = $('body').hasClass('dark-mode');
-          localStorage.setItem('darkMode', isDarkMode);
-
-          // Show content after transition
-          setTimeout(function() {
-            $('body').css('overflow', 'visible');
-          }, 300);
-        }, 300); // Adjust the delay (in milliseconds) to match the transition duration
+        // Store the mode preference in local storage
+        var isDarkMode = $('body').hasClass('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
       }
 
-      // Rest of the code...
+      // Add click event listener to navigation links
+      $('nav a').on('click', function(e) {
+        e.preventDefault();
+        var target = $(this).attr('href');
 
-      // Remove the fade-out class after the transition to show the content
-      $('body').removeClass('fade-out');
+        // Fade out current content and header text
+        $('body').addClass('fade-out');
+
+        // Delay the navigation to allow the fade-out effect
+        setTimeout(function() {
+          window.location.href = target;
+        }, 300); // Adjust the delay (in milliseconds) to match the transition duration
+
+        return false;
+      });
+
+      // Add the show class to the content and header sections on page load
+      $('.content, header h1').addClass('fade-in');
+
+      // Trigger the animation by adding the show class after a slight delay
+      setTimeout(function() {
+        $('.content, header h1').addClass('show');
+      }, 100);
+
+      // Check local storage for the user's preferred mode
+      var storedDarkMode = localStorage.getItem('darkMode');
+      if (storedDarkMode === 'true') {
+        $('body').addClass('dark-mode');
+        $('.dark-mode-toggle').addClass('active');
+        $('.content').addClass('show'); // Added to fix the fade-in issue
+      } else {
+        // Add the fade-in class to the body to show the content after the transition
+        $('body').addClass('fade-in');
+      }
+
+      // Add click event listener to dark mode toggle button
+      $('.dark-mode-toggle').on('click', toggleDarkMode);
     });
   </script>
 </head>
-<body class="fade-out">
-  <!-- Your HTML content -->
+<body>
+  <header>
+    <h1>Welcome to Parker Gage's Resume</h1>
+    <div class="dark-mode-toggle">
+      <img src="moon-icon.png" alt="Dark Mode Toggle">
+    </div>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="Education.html">Education</a></li>
+      <li><a href="Experience.html">Experience</a></li>
+      <li><a href="Skills.html">Skills</a></li>
+      <li><a href="References.html">References</a></li>
+    </ul>
+  </nav>
+
+  <section class="content">
+    <p>Objective: To obtain a 2024 Summer internship in the field of Mechanical Engineering.</p>
+  </section>
+
+  <footer>
+    <div class="personal-info">
+      <p>Parker Gage | 422 Highedge Dr, Rockwall, TX 75087 | 469-338-3185 | parkergage2003@gmail.com</p>
+    </div>
+    <div class="social-media">
+      <a href="https://www.linkedin.com/in/parker-gage-0a50861b1/" target="_blank"><img src="linkedin-icon.png" alt="LinkedIn"></a>
+      <a href="https://www.instagram.com/p.gage25/" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+      <a href="resume.doc" target="_blank"><img src="word-icon.png" alt="Resume"></a>
+    </div>
+  </footer>
 </body>
 </html>

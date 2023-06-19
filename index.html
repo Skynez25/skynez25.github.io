@@ -176,19 +176,19 @@
         $('body').addClass('dark-mode');
         $('.dark-mode-toggle').addClass('active');
         $('.content').addClass('show'); // Added to fix the fade-in issue
-      } else {
-        // Add the fade-in class to the body to show the content after the transition
-        $('body').addClass('fade-in');
       }
 
       // Add click event listener to dark mode toggle button
       $('.dark-mode-toggle').on('click', toggleDarkMode);
+
+      // Remove the fade-out class after the transition to show the content
+      $('body').removeClass('fade-out');
     });
   </script>
 </head>
-<body>
+<body class="fade-out">
   <header>
-    <h1>Welcome to Parker Gage's Resume</h1>
+    <h1 class="fade-in">Welcome to Parker Gage's Resume</h1>
     <div class="dark-mode-toggle">
       <img src="moon-icon.png" alt="Dark Mode Toggle">
     </div>

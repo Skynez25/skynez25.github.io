@@ -2,19 +2,6 @@
 <html>
 <head>
   <title>Welcome - Parker Gage</title>
-  <script>
-    var enteredPassword = sessionStorage.getItem('enteredPassword');
-
-    if (!enteredPassword) {
-      window.location.href = 'password.html'; // Redirect to the password protection page
-    }
-  </script>
-    
-  <script>
-    // Store a flag indicating that the correct password has been entered
-    sessionStorage.setItem('enteredPassword', 'true');
-  </script>
-  <link rel="stylesheet" type="text/css" href="styles.css">
   <style>
     /* CSS for the fade-in and fade-out animation */
     .fade-in {
@@ -55,10 +42,12 @@
     .dark-mode-toggle.active img {
       transform: rotate(45deg);
     }
-   /* Dark mode styles */
+
+    /* Dark mode styles */
     body.dark-mode {
       background-color: #222;
       color: #fff;
+      overflow: hidden; /* Hide content during transition */
     }
 
     body.dark-mode header {
@@ -75,6 +64,13 @@
 
     body.dark-mode .content {
       background-color: #333;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transform-origin: center;
+      transition: transform 0.3s ease;
+      opacity: 0;
+      position: relative;
+      z-index: 1;
     }
 
     body.dark-mode .content p {
@@ -110,28 +106,6 @@
     body.fade-out header h1 {
       opacity: 0;
     }
-
-    /* Custom styles for the content section */
-    .content {
-      position: relative;
-      margin: 50px auto;
-      padding: 20px;
-      width: 80%;
-      max-width: 600px;
-      background-color: #333;
-      color: #fff;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease;
-    }
-
-    .content:hover {
-      transform: scale(1.1);
-    }
-
-    .content p {
-      margin: 0;
-    }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
@@ -144,6 +118,9 @@
         // Store the mode preference in local storage
         var isDarkMode = $('body').hasClass('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
+
+        // Hide content during transition
+        $('body').css('overflow', 'hidden');
       }
 
       // Add click event listener to navigation links
@@ -175,7 +152,11 @@
       if (storedDarkMode === 'true') {
         $('body').addClass('dark-mode');
         $('.dark-mode-toggle').addClass('active');
-        $('.content').addClass('show'); // Added to fix the fade-in issue
+
+        // Show content after transition
+        setTimeout(function() {
+          $('body').css('overflow', 'visible');
+        }, 300);
       }
 
       // Add click event listener to dark mode toggle button
@@ -193,7 +174,7 @@
       <img src="moon-icon.png" alt="Dark Mode Toggle">
     </div>
   </header>
-  
+
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>

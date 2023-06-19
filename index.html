@@ -44,10 +44,15 @@
     }
 
     /* Dark mode styles */
-    body.dark-mode {
+    body {
       background-color: #222;
+      transition: background-color 0.3s ease;
       color: #fff;
       overflow: hidden; /* Hide content during transition */
+    }
+
+    body.dark-mode {
+      background-color: #333;
     }
 
     body.dark-mode header {
@@ -119,8 +124,10 @@
         var isDarkMode = $('body').hasClass('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
 
-        // Hide content during transition
-        $('body').css('overflow', 'hidden');
+        // Show content after transition
+        setTimeout(function() {
+          $('body').css('overflow', 'visible');
+        }, 300);
       }
 
       // Add click event listener to navigation links
